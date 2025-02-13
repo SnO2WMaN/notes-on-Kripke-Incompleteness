@@ -3,6 +3,7 @@
 #show: project.with(
   title: "Kripke不完全な様相論理",
   authors: ("SnO2WMaN",),
+  meta: json("meta.json"),
 )
 
 #let AxiomH = $Axiom(H)$
@@ -77,9 +78,7 @@ $LogicKH$ はKripke意味論に対して完全ではない論理の一つであ�
 ] <thm:Four_of_F>
 
 #lemma[
-  $
-    LogicKH nvdash Axiom4
-  $
+  $LogicKH nvdash Axiom4$．
 ] <thm:KH_not_prove_Axiom4>
 
 
@@ -183,11 +182,7 @@ $LogicKH$ はKripke意味論に対して完全ではない論理の一つであ�
 
 まず公理 $Axiom4$ がCresswellのモデルでは妥当でないことを示そう．
 
-#lemma[
-  $
-    CresswellModel, 2^sharp nvDash Axiom4
-  $
-] <lem:Cresswell_not_validate_Axiom4>
+#lemma[$CresswellModel, 2^sharp nvDash Axiom4$．] <lem:Cresswell_not_validate_Axiom4>
 
 #proof[
 

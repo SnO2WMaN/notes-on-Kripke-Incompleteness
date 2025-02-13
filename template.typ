@@ -14,6 +14,7 @@
   title: "",
   authors: (),
   date: (datetime.today().year(), datetime.today().month(), datetime.today().day()),
+  meta: (url: "", licenseInfo: (key: "cc-by-4.0", name: "Creative Commons Attribution 4.0 International")),
   body,
 ) = {
   set document(author: authors, title: title)
@@ -27,28 +28,40 @@
 
   show: thmrules.with(qed-symbol: [❏])
 
-  align(left)[
-    #block(text(1.75em, font: "Shippori Antique B1", title))
-  ]
-
-  pad(
-    top: 0.5em,
-    bottom: 0.5em,
-    x: 0em,
-    grid(
-      columns: (1fr,) * calc.min(3, authors.len()),
-      gutter: 1em,
-      align(left)[#date.at(0).#date.at(1).#date.at(2)],
-      ..authors.map(author => align(left, strong(author))),
-    ),
+  grid(
+    columns: (1fr, auto),
+    align: (left + horizon, center + horizon, right + horizon),
+    rect(stroke: none)[
+      #block(text(font: "Shippori Antique B1", weight: 700, 1.75em, title))
+      #pad(
+        top: .5em,
+        grid(
+          gutter: .6em,
+          ..authors.map(author => text(font: "Shippori Antique B1", author)),
+        ),
+      )
+    ],
+    link(meta.url)[
+      #rect(
+        width: 12.5em,
+        fill: black,
+        stroke: none,
+        inset: 14pt,
+        text(
+          font: "JuliaMono",
+          fill: white,
+          size: 6pt,
+        )[
+          #align(center)[#text(meta.licenseInfo.name)]
+          #align(center)[#date.at(0)/#date.at(1)/#date.at(2)]
+        ],
+      )
+    ],
   )
 
   set par(justify: true)
 
   set bibliography(title: "参考文献")
-
-  heading(numbering: none)[メタ情報]
-  meta(json("meta.json"))
 
   outline(title: "目次")
 
