@@ -27,19 +27,19 @@
 
   show: thmrules.with(qed-symbol: [❏])
 
-  align(center)[
+  align(left)[
     #block(text(1.75em, font: "Shippori Antique B1", title))
   ]
 
   pad(
     top: 0.5em,
     bottom: 0.5em,
-    x: 2em,
+    x: 0em,
     grid(
       columns: (1fr,) * calc.min(3, authors.len()),
       gutter: 1em,
-      align(center)[#date.at(0).#date.at(1).#date.at(2)],
-      ..authors.map(author => align(center, strong(author))),
+      align(left)[#date.at(0).#date.at(1).#date.at(2)],
+      ..authors.map(author => align(left, strong(author))),
     ),
   )
 
@@ -62,6 +62,7 @@
   breakable: false,
   radius: 0pt,
   inset: (left: 1.25em, right: 1.25em, top: 1.5em, bottom: 1.5em),
+  base_level: 1,
 )
 
 #let definition = thmplain(
@@ -155,10 +156,10 @@
 #let nvdash = $tack.r.not$
 #let vDash = $tack.r.double$
 #let nvDash = $tack.r.double.not$
+#let Vdash = $tack.double$
 
-#let Thm = $upright("Thm")$
-#let Bew = $bold(upright("Pr"))$
-#let Con = $bold(upright("Con"))$
+#let Pr(T) = $upright("Pr")_#T$
+#let Con(T) = $upright("Con")_#T$
 
 #let ulcorner = $⌈$
 #let urcorner = $⌉$
