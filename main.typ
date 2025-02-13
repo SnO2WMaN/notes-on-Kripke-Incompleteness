@@ -1,4 +1,8 @@
 #import "template.typ": *
+#import "@preview/equate:0.2.1": equate
+
+#set math.equation(numbering: "(1.i)")
+#show: equate.with(breakable: true, sub-numbering: true, number-mode: "label")
 
 #show: project.with(
   title: "Kripke不完全な様相論理",
@@ -188,7 +192,10 @@ $LogicKH$ はKripke意味論に対して完全ではない論理の一つであ�
 #lemma[$CresswellModel, 2^sharp nvDash Axiom4$．] <lem:Cresswell_not_validate_Axiom4>
 
 #proof[
-
+  $2^sharp vDash box p$ と $2^sharp nvDash box box p$ を示せば良い．
+  $2^sharp$ から1歩だけで行ける世界に $0^sharp$ は存在しない．よって $2^sharp vDash box p$ が成り立つ．
+  他方，$2^sharp$ から2歩で行ける世界には $0^sharp$ が存在する．よって $2^sharp nvDash box box p$ が成り立つ．
+  よってよい．
 ]
 
 次に，$AxiomH$ の全てのインスタンスがCresswellのモデルで妥当であることを示す．
@@ -202,13 +209,128 @@ $LogicKH$ はKripke意味論に対して完全ではない論理の一つであ�
   任意の $phi$ に対し，$[phi]$ またはその補集合 $[phi]^c$ のどちらかは有限である．
 ] <lem:truthset_either_finite>
 
-では示そう．
+#proof[
+  $phi$ に関する論理式の帰納法で示す．
+  #struct[
+    $phi equiv p$ なら $[p]^c = {0}$ なのでよい．
+  ]
+  #struct[
+    $phi equiv bot$ なら $[bot] = emptyset$ なのでよい．
+  ]
+  #struct[
+    $phi equiv psi -> xi$ のとき．
+    $[psi -> chi] = [psi]^c union [chi]$ であることに注意する．
+    補集合を考えると，$[psi]^c union [chi]$ または $[psi] sect [chi]^c$ のどちらかが有限であることを示せばよい．
+    帰納法の仮定を用いれば4パターンに分類出来る．
+    #struct[
+      $[psi]$ が有限か $[chi]^c$ が有限ならば $[psi] sect [chi]^c$ が有限．
+    ]
+    #struct[
+      $[phi]^c$ が有限かつ $[psi]$ が有限のときは $[psi]^c union [chi]^c$ が有限．
+    ]
+    よってよい．
+  ]
+  #struct[
+    $NN^flat subset.eq [phi]$ かそうでないかで場合分けを行う．
+    #struct[
+      そうでないとき，すなわちある $n^flat$ が存在して $n^flat in.not [phi]$ であるとする．
+      このとき $[box phi] subset.eq { m^flat | m <= n }$ であり ${ m^flat | m <= n }$ は有限であることから従う．
+    ]
+    #struct[
+      $NN^flat subset.eq [phi]$ のとき．
+      帰納法の仮定より $[phi]^c$ は有限である．
+      $[phi]^c$ が空集合なら $[phi] = W$ であり，$[box phi] = W$ が言えるので $[box phi]^c = emptyset$ となってよい．
+      したがって，$[phi]^c$ は空集合でないとする．
+
+      最大の $n^sharp in [phi]^c$ を取る．すなわち任意の $n < m$ で $m^sharp in [phi]$ である．
+      このとき $[box phi]^c subset.eq { m^sharp | m <= n + 1 }$ であり ${ m^sharp | m <= n + 1 }$ は有限であることから従う．
+    ]
+  ]
+  よって示された．
+]
+
+では @lem:Cresswell_validate_AxiomH を示そう．
 
 #lemma[
   $AxiomH$ の全てのインスタンスは $M$ で妥当．
 ] <lem:Cresswell_validate_AxiomH>
 
+#proof[
+  論理式 $phi$ による $AxiomH$ のインスタンスを考える．
+  任意に $x in W$ とし，$x vDash box(box phi <-> phi) -> box phi$ を示す．
 
+  $NN^flat subset.eq [phi]$ かそうでないかで場合分けを行う．
+  #struct[
+    そうでないとき，すなわちある $n^flat$ が存在して $n^flat in.not [phi]$ であるとする．
+
+    このとき，一般性を失わずに $n^flat$ は最も右側，すなわち，任意の $m > n$ に対して $m^flat in [phi]$ としてよい．
+    #struct[
+      $m^flat in.not [phi]$ かつ，任意の $k > m$ に対して $k^flat in [phi]$ となる $m^flat$ を $0^flat, 1^flat,...$ から探していく．
+      例えば，仮に $0^flat in [phi]$ であった場合，次の $1^flat$ について $1^flat in.not [phi]$ であるなら $m^flat = 1^flat$ とすれば良いし，
+      そうでないなら次の $2^flat$ について同様に探していく．
+      この手続きは $n^flat in.not [phi]$ であることから必ず $n^flat$ までには終わる．
+    ]
+
+    この仮定を用いて計算すると，次が成り立つ．
+    $
+      n^flat &vDash box phi #<eq:Cresswell_validate_AxiomH:case1:1> \
+      n^flat &nvDash box phi <-> phi #<eq:Cresswell_validate_AxiomH:case1:2>
+    $
+
+    これらを踏まえて，$x$ で場合分けを行う．
+    #struct[
+      $x = m^sharp$ であるときは $m^sharp R n^flat$ なので @eq:Cresswell_validate_AxiomH:case1:2 より良い．
+    ]
+
+    #struct[
+      $x = m^flat$ で $m > n$ であるとき，
+      $m^flat vDash box (box phi <-> phi)$ と仮定すると $m^flat R n^flat$ であるので
+      $n^flat &vDash box phi <-> phi$ となり @eq:Cresswell_validate_AxiomH:case1:1 と矛盾する．
+      よって $m^flat nvDash box (box phi <-> phi)$ であり，良い．
+    ]
+
+    #struct[
+      $x = m^flat$ で $m <= n$ であるとき．
+      $m^flat$ から行けるのは $m > k$ として $k^flat$ のみである．
+      このとき $n > k$ であるから，$n$ の最小性の仮定より $k^flat in [phi]$ である．
+      したがって $m^flat vDash box phi$ が成り立ち，良い．
+    ]
+
+    これで任意の $x in W$ に対して $x vDash box(box phi <-> phi) -> box phi$ が成り立つことが示された．
+  ]
+  #struct[
+    $NN^flat subset.eq [phi]$ なら $[phi]$ は無限なので，@lem:truthset_either_finite より $[phi]^c$ は有限である．
+    $[phi]^c$ が空集合とすると $x vDash box phi$ が成り立つので良い．
+    よって $[phi]^c$ は空集合でないとする．
+
+    最大の $n^sharp in [phi]^c$ を取る．すなわち任意の $n < m$ で $m^sharp in [phi]$ である．
+
+    $x$ について場合分けを行う．
+    #struct[
+      $x = m^flat$ であるとき，$m^flat$ から行けるのは $NN^flat$ の要素のみであり，$NN^flat subset.eq [phi]$ なので $m^flat vDash box phi$ が成り立つ．
+      よってよい．
+    ]
+    #struct[
+      $x = m^sharp$ かつ，$n + 2 <= m$ であるとき．
+      このとき $m^sharp$ から行ける世界は全て $NN^flat$ の要素か，$n + 1 <= k$ として $k^sharp$ までである．
+      $n$ の最大性の仮定よりこれらの世界は全て $[phi]$ に含まれ，したがって $m^sharp vDash box phi$ が成り立つ．
+      よってよい．
+    ]
+    #struct[
+      $x = m^sharp$ かつ，$n + 1 >= m$ であるとき．
+      このとき，$m^sharp nvDash box(box phi <-> phi)$ を示す．
+      定義より $m^sharp R (n + 1)^sharp$ であるから，$(n + 1)^sharp nvDash box phi <-> phi$ が示されれば十分．
+      更に，最大性の仮定より $(n + 1)^sharp vDash phi$ であるから，$(n + 1)^sharp nvDash box phi$ を示せば良い．
+      これは定義より $(n + 1)^sharp R n^sharp$ であり，$n^sharp in [phi]^c$ なので成り立つ．
+      以上よりよい．
+    ]
+    これで任意の $x in W$ に対して $x vDash box(box phi <-> phi) -> box phi$ が成り立つことが示された．
+  ]
+  どちらにしても，$x vDash box(box phi <-> phi) -> box phi$ が成り立つので，
+  $CresswellModel vDash box(box phi <-> phi) -> box phi$ が成り立つ．
+]
+
+これにより，Cresswellモデルは所望の性質を満たすことが確認できた．
 
 == その他
 
