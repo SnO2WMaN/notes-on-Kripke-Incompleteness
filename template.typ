@@ -68,7 +68,7 @@
 
   body
 
-  bibliography("references.bib", style: "springer-lecture-notes-in-computer-science")
+  bibliography("references.bib")
 }
 
 #let thmplain = thmbox.with(

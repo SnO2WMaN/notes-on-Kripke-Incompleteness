@@ -14,7 +14,9 @@
 
 標準的な様相論理において，Kripke意味論は有用ではあるが，万能ではない．
 例えば，非反射的なKripkeフレームのクラスを標準的な様相論理で特徴づけることは出来ないことはよく知られている．
-この文書ではKripke意味論に対して完全ではない，すなわちKripke不完全な様相論理である $LogicKH$ についてその証明を載せておく．
+更に微妙な結果として，Kripke意味論に対して完全ではない，すなわちKripke不完全な様相論理も存在する．
+この文書では $LogicKH$ がKripke不完全であることの証明を載せておく．
+証明は @hughesNewIntroductionModal2007 および @boolosLogicProvability1994 に基づく#footnote[ただし @boolosLogicProvability1994 に記載されている証明は大枠では正しいが，細部が誤っている気がする．誤植だろうか？]．
 
 #notation[
   この文書では以下の用に用語を用いる．
@@ -41,15 +43,15 @@
   - $LogicK$ に公理 $AxiomH$ を追加した論理は $LogicKH$ と呼ばれる．
 ]
 
-#remark[歴史的経緯][
+#remark[歴史的経緯，@KurahashiShomeikanoseironri2016[pp.109-111]][
   $LogicGL$ は不完全性定理における証明可能性述語の挙動を様相論理によって分析する証明可能性論理と呼ばれる分野でよく知られている．
   不完全性定理は「自分自身の正しさと*反証可能性*が同値である文#footnote[このような文を構成する補題がいわゆる対角化補題である．]の挙動はどうなるか？」という問に対する系であるとも考えられる．
   これを踏まえて，Henkinは「では，自分自身の正しさと自分自身の*証明可能性*が同値である文の挙動はどうなるか？」という問題を提起した．
-  Löbの定理はこの問に対する系であり，特に同値性は必要なく，片側の含意だけで良いことがわかった．
+  次のLöbの定理はこの問に対する回答であり，特に同値性は必要なく，片側の含意だけで良いことがわかった．
   #theorem(numbering: none)[Löbの定理][
     $T vdash Pr(T)(GoedelNum(sigma)) -> sigma$ ならば $T vdash sigma$．
   ]
-  更に，形式化されたLöbの定理が得られる．
+  更にこれを形式化することで次の定理も得られる．
   #theorem(numbering: none)[形式化されたLöbの定理][
     $T vdash Pr(T)(GoedelNum(Pr(T)(GoedelNum(sigma)) -> sigma)) -> Pr(T)(GoedelNum(sigma))$．
   ]
@@ -58,7 +60,8 @@
   これに対応する公理が $AxiomH$ である．
 ]
 
-$LogicKH$ はKripke意味論に対して完全ではない論理の一つである．すなわち，@thm:KH_incompleteness が成り立つ．
+$LogicKH$ はKripke意味論に対して完全ではない論理の一つである．
+すなわち，@thm:KH_incompleteness が成り立つ．
 
 #theorem[$LogicKH$のKripke不完全性][
   $LogicKH$ に対して健全かつ完全なフレームのクラスは存在しない．
@@ -139,7 +142,7 @@ $LogicKH$ はKripke意味論に対して完全ではない論理の一つであ�
   命題論理のトートロジー，公理 $AxiomK$ のインスタンスは任意のモデルで妥当であり，
   また推論規則モーダス・ポネンス，ネセシテーションはモデルによる妥当性を保存する．
   これらの事実と $Sigma$ の公理のインスタンスが全て妥当であるという仮定を用いて，
-  $Logic(K Sigma) vdash phi$ の証明による帰納法を回せば良い．
+  $Logic(K Sigma) vdash phi$ のHilbert流証明体系での証明による帰納法を回せば良い．
 ]
 
 @thm:KH_not_prove_Axiom4 は @lem:model_existence の対偶を用いて証明する．
@@ -220,9 +223,9 @@ $LogicKH$ については他に以下のような性質が知られている．
   一方，@thm:KH_not_prove_Axiom4 より $Axiom4$ は $LogicKH$ では証明できない．
 ]
 
-Kripke不完全性を起こしている原因は $LogicKH$ では $Axiom4$ が証明できないことにあった．
+Kripke不完全性を起こしている原因の一つは $LogicKH$ では $Axiom4$ が証明できないことにあった．
 では $Axiom4$ を追加するとどうなるか？これは以下が知られている．
 
-#proposition[
-  $LogicKH$ に $Axiom4$ を足した論理は $LogicGL$ と同値になる．
+#proposition[@KurahashiShomeikanoseironri2016[p.113]][
+  $LogicKH$ に $Axiom4$ を足した論理は $LogicGL$ になる．
 ]
