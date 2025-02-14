@@ -1,8 +1,4 @@
 #import "template.typ": *
-#import "@preview/equate:0.2.1": equate
-
-#set math.equation(numbering: "(1.i)")
-#show: equate.with(breakable: true, sub-numbering: true, number-mode: "label")
 
 #show: project.with(
   title: "Kripke不完全な様相論理",
