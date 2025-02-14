@@ -17,6 +17,7 @@
 更に微妙な結果として，Kripke意味論に対して完全ではない，すなわちKripke不完全な様相論理も存在する．
 この文書では $LogicKH$ がKripke不完全であることの証明を載せておく．
 証明は @hughesNewIntroductionModal2007 および @boolosLogicProvability1994 に基づく#footnote[ただし @boolosLogicProvability1994 に記載されている証明は大枠では正しいが，細部が誤っている気がする．誤植だろうか？]．
+なお，ここに書いた証明は #link("https://github.com/FormalizedFormalLogic/Foundation/blob/6d6877014b7e88188c26dd191e89c41d89f9d5a8/Foundation/Modal/Kripke/KH_Incompleteness.lean")[#underline[Lean4で形式化済みである．]]
 
 #notation[
   この文書では以下の用に用語を用いる．
