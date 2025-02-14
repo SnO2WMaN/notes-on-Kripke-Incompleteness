@@ -1,15 +1,6 @@
 #import "@preview/ctheorems:1.1.3": *
 #import "@preview/codelst:2.0.2": sourcecode
 
-#let meta(json) = block[
-  #show link: underline
-
-  #list(
-    [この文書のリポジトリは#link(json.url)です．誤植や訂正などはIssuesから連絡してください．],
-    [この文書は#text(json.licenseInfo.name)でライセンスされています．],
-  )
-]
-
 #let project(
   title: "",
   authors: (),
@@ -23,7 +14,7 @@
   set heading(numbering: "1.")
   show heading: set text(size: 14pt, font: "Shippori Antique B1", lang: "ja")
 
-  set text(size: 9.5pt, font: "Shippori Mincho B1", lang: "ja")
+  set text(size: 10pt, font: "Shippori Mincho B1", lang: "ja")
   show raw: set text(font: "JuliaMono", size: 7pt)
 
   show: thmrules.with(qed-symbol: [❏])
@@ -46,11 +37,11 @@
         width: 12.5em,
         fill: black,
         stroke: none,
-        inset: 14pt,
+        inset: 1.25em,
         text(
           font: "JuliaMono",
           fill: white,
-          size: 6pt,
+          size: 8pt,
         )[
           #align(center)[#text(meta.licenseInfo.name)]
           #align(center)[#date.at(0)/#date.at(1)/#date.at(2)]
@@ -72,32 +63,47 @@
 }
 
 #let thmplain = thmbox.with(
-  breakable: false,
+  breakable: true,
   radius: 0pt,
-  inset: (left: 1.25em, right: 1.25em, top: 1.5em, bottom: 1.5em),
+  inset: (left: 1.5em, right: 1.25em, top: 1.5em, bottom: 1.5em),
   base_level: 1,
+  /*
+  namefmt: name => [
+    #text(font: "Shippori Antique B1")[(#name)]
+  ],
+  */
+  titlefmt: body => [
+    #text(font: "Shippori Antique B1")[#body]
+  ],
+  namefmt: name => [
+    #text(font: "Shippori Antique B1")[(#name)]
+  ],
+  separator: [
+    #h(0.1em)
+    #text(font: "Shippori Antique B1")[:]
+    #h(0.2em)
+  ],
 )
 
 #let definition = thmplain(
   "theorem",
   "定義",
-  breakable: true,
   fill: luma(250),
-  stroke: (left: (thickness: 0.5em, paint: luma(100))),
+  stroke: (left: (thickness: 0.5em, paint: black)),
 )
 
 #let theorem = thmplain(
   "theorem",
   "定理",
   fill: luma(250),
-  stroke: (left: (thickness: 0.5em, paint: luma(100))),
+  stroke: (left: (thickness: 0.5em, paint: black)),
 )
 
 #let proposition = thmplain(
   "theorem",
   "命題",
   fill: luma(250),
-  stroke: (left: (thickness: 0.5em, paint: luma(100))),
+  stroke: (left: (thickness: 0.5em, paint: luma(190))),
 )
 
 #let lemma = thmplain(
@@ -111,36 +117,42 @@
   "theorem",
   "系",
   fill: luma(250),
-  stroke: (left: (thickness: 0.5em, paint: luma(150))),
+  stroke: (left: (thickness: 0.5em, paint: luma(190))),
 )
 
 #let remark = thmplain(
   "theorem",
   "注意",
-  breakable: true,
   stroke: (left: (thickness: 1pt, paint: luma(230))),
 )
 
-#let example = thmbox(
+#let example = thmplain(
   "theorem",
   "例",
-  breakable: true,
-  inset: (left: 12pt, top: 5pt, bottom: 8pt),
+  stroke: (left: (thickness: 1pt, paint: luma(230))),
 )
 
-#let notation = thmbox(
+#let notation = thmplain(
   "theorem",
   "記法",
-  breakable: true,
-  inset: (left: 12pt, top: 5pt, bottom: 8pt),
+  stroke: (left: (thickness: 1pt, paint: luma(230))),
 )
 
 #let proof = thmproof(
   "proof",
   "証明",
   breakable: true,
-  titlefmt: strong,
-  namefmt: name => [(#name)],
+  titlefmt: body => [
+    #text(font: "Shippori Antique B1")[#body]
+  ],
+  namefmt: name => [
+    #text(font: "Shippori Antique B1")[(#name)]
+  ],
+  separator: [
+    #h(0.1em)
+    #text(font: "Shippori Antique B1")[:]
+    #h(0.2em)
+  ],
 )
 
 #let struct(body) = block(
