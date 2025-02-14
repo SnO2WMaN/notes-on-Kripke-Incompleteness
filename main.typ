@@ -102,34 +102,78 @@ $LogicKH$ はKripke意味論に対して完全ではない論理の一つであ�
 == @thm:Four_of_F の証明
 
 こちらの証明は比較的簡単である．
-まず，次の事実が成り立つ．証明は省略する．
+まず，次の事実が成り立つ．
 
 #proposition[
   フレーム $F$ に対し，$F vDash AxiomL$ なら，$F$ は推移的であり，したがって $F vDash Axiom4$ である．
 ] <prop:validate_4_of_validate_L>
+#proof[
+  証明略．@sanoModalLogicIntro2016 や @nishimuraModalDefinability2025 などを参照せよ．
+]
 
-次に，$AxiomH$ と $AxiomL$ はKripkeフレーム上では区別がつかないことを示す．
+次の補題が肝心である．
 
 #lemma[
-  任意のフレーム $F$ に対し，次が成立する．
+  任意のフレーム $F = angle.l W, R angle.r$ に対し，次が成立する．
   $
     F vDash AxiomH <==> F vDash AxiomL
   $
 ] <lem:validate_H_iff_validate_L>
 
 #proof[
+  $<==$ は素直に計算すればよい．$==>$ を示す．
+
+  $F vDash AxiomH$ と仮定する．
+  更に，付値 $forces$ と $x, y in W$ で $x R y$ となるものを任意にとり，$angle.l F, forces angle.r, x vDash box (box p -> p)$ と仮定し，
+  $angle.l F, forces angle.r, y vDash p$ を示す．
+
+  次のように付値 $forces'$ を定める．
+  $
+    w forces' q <==> forall n in NN : angle.l F, forces angle.r, w vDash box^n q
+  $
+
+  次が成り立つ．
+  $
+    angle.l F, forces' angle.r, x vDash box (box p <-> p) #<eq:validate_H_iff_validate_L:1> \
+  $
   #struct[
-    $==>$ を示す．
+    任意の $x R z$ となる $z$ で
+    $angle.l F, forces' angle.r, z vDash p <==> angle.l F, forces' angle.r, z vDash box p$
+    となることを示せば良い．
+
+    以下のように示される．
+    $
+      angle.l F, forces' angle.r, z vDash p
+      &<==> forall n in NN : angle.l F, forces angle.r, z vDash box^n p  #<eq:validate_H_iff_validate_L:2> \
+      &<==> forall n in NN : angle.l F, forces angle.r, z vDash box^(n + 1) p  #<eq:validate_H_iff_validate_L:3> \
+      &<==> forall n in NN : forall w, z R w: angle.l F, forces angle.r, z vDash box^n p \
+      &<==> forall w, z R w: angle.l F, forces' angle.r, z vDash p \
+      &<==> angle.l F, forces' angle.r, z vDash box p
+    $
+
+    @eq:validate_H_iff_validate_L:3 から @eq:validate_H_iff_validate_L:2 を出すことについてだけ注意しておく．
+    これは $angle.l F, forces angle.r, z vDash box box^n p -> box^n p$ を示せば良い．
+    $n$ についての帰納法を回した時，$n = 0$ のケースは最初の仮定 $angle.l F, forces angle.r, x vDash box (box p -> p)$ より $angle.l F, forces angle.r, z vDash box p -> p$ から従う．$n > 0$ に関しては帰納法の仮定を用いて証明すれば良い．
   ]
-  #struct[
-    $<==$ を示す．
-  ]
+
+  @eq:validate_H_iff_validate_L:1 と $F vDash AxiomH$ を合わせれば次を得る．
+  $
+    angle.l F, forces' angle.r, x vDash box p #<eq:validate_H_iff_validate_L:4> \
+  $
+
+  @eq:validate_H_iff_validate_L:4 と $x R y$ から $angle.l F, forces' angle.r, y vDash p$ が成り立つ．
+  $forces'$ の定義より，任意の $n in NN$ に対して $angle.l F, forces angle.r, y vDash box^n p$ が成り立つ．
+  特に $n = 0$ とすれば $angle.l F, forces angle.r, y vDash p$ が成り立つ．
 ]
 
 後は簡単である．
 
 #proof[@thm:Four_of_F][
   @prop:validate_4_of_validate_L と @lem:validate_H_iff_validate_L より明らか．
+]
+
+#remark[
+  @lem:validate_H_iff_validate_L は，$AxiomL$ によって定義されるフレームのクラスと $AxiomH$ でも定義されるフレームのクラスが一致することを示している．
 ]
 
 == @thm:KH_not_prove_Axiom4 の証明
@@ -181,10 +225,13 @@ $LogicKH$ はKripke意味論に対して完全ではない論理の一つであ�
 ]
 
 #remark[
-  フレームを図示すると以下のようになる．
+  フレームをわかりやすく図示すると以下のようになる．
   $
     0^sharp, 1^sharp, 2^sharp, ..., n^sharp, ..., m^flat, ..., 2^flat, 1^flat, 0^flat
   $
+
+  $NN^sharp$ では一歩だけ戻ることが出来る，すなわち $(n + 1)^sharp R n^sharp$ である．
+  しかし，それ以外では全体的に左から右にしか行けない一方通行であると思えば良い．
 ]
 
 まず公理 $Axiom4$ がCresswellのモデルでは妥当でないことを示そう．
@@ -235,8 +282,19 @@ $LogicKH$ はKripke意味論に対して完全ではない論理の一つであ�
     $NN^flat subset.eq [psi]$ かそうでないかで場合分けを行う．
     #struct[
       そうでないとき，すなわちある $n^flat$ が存在して $n^flat in.not [psi]$ であるとする．
-      このとき $[box psi] subset.eq { m^flat | m <= n }$ である．
-      ${ m^flat | m <= n }$ は有限であるので示された．
+
+      このとき $[box psi] subset.eq { m^flat | m <= n }$ を示す．
+      任意の $x in [box psi]$ が $x in { m^flat | m <= n }$ であることを示せばよい．
+      $x$ で場合分けする．
+      #struct[
+        $x = m^sharp$ であるとき，$m^sharp R n^flat$ だから $n^flat in [psi]$ となっておかしい．
+      ]
+      #struct[
+        $x = m^flat$ であるとき，仮に含まれていない，すなわち $m > n$ と仮定する．
+        このとき $m^flat R n^flat$ だから $n^flat in [psi]$ となっておかしい．
+      ]
+
+      ${ m^flat | m <= n }$ は有限であるので $[box psi]$ も有限である．
     ]
     #struct[
       $NN^flat subset.eq [psi]$ のとき．
@@ -247,8 +305,23 @@ $LogicKH$ はKripke意味論に対して完全ではない論理の一つであ�
       したがって，$[psi]^c$ は空集合でないとする．
 
       最大の $n^sharp in [psi]^c$ を取る．すなわち任意の $n < m$ で $m^sharp in [psi]$ である．
-      このとき $[box psi]^c subset.eq { m^sharp | m <= n + 1 }$ である．
-      ${ m^sharp | m <= n + 1 }$ は有限であるので示された．
+
+      このとき $[box psi]^c subset.eq { m^sharp | m <= n + 1 }$ であることを示す．
+      任意の $x in [box psi]^c$ が $x in { m^sharp | m <= n + 1 }$ であることを示せばよい．
+      $x in [box psi]^c$ から更に $x R y$ となる $y$ が存在して $y in.not [psi]$ である．
+      $x, y$ で場合分けする．
+      #struct[
+        $y = k^flat$ ではない．仮に $y = k^flat$ なら，仮定より $k^flat in [psi]$ であり，おかしい．
+      ]
+      #struct[
+        $x = m^flat$ かつ $y = k^sharp$ は $m^flat R k^sharp$ ではないのでありえない．
+      ]
+      #struct[
+        $x = m^sharp$ かつ $y = k^sharp$ であると仮定する．
+        $m^sharp R k^sharp$ なので，$m <= k + 1$ である．
+        仮に含まれないとすると，$m > n + 1$ である．したがって，$n < k$ であるから，最大値の仮定より $k^sharp in [psi]$ が言えておかしい．
+      ]
+      ${ m^sharp | m <= n + 1 }$ は有限であるので $[box psi]$ も有限である．
     ]
   ]
   よって示された．
@@ -268,7 +341,7 @@ $LogicKH$ はKripke意味論に対して完全ではない論理の一つであ�
   #struct[
     そうでないとき，すなわちある $n^flat$ が存在して $n^flat in.not [phi]$ であるとする．
 
-    このとき，一般性を失わずに $n^flat$ は最も右側，すなわち，任意の $m > n$ に対して $m^flat in [phi]$ としてよい．
+    このとき，一般性を失わずに $n^flat$ は最小，すなわち，任意の $m > n$ に対して $m^flat in [phi]$ としてよい．
     #struct[
       $m^flat in.not [phi]$ かつ，任意の $k > m$ に対して $k^flat in [phi]$ となる $m^flat$ を $0^flat, 1^flat,...$ から探していく．
       例えば，仮に $0^flat in [phi]$ であった場合，次の $1^flat$ について $1^flat in.not [phi]$ であるなら $m^flat = 1^flat$ とすれば良いし，
@@ -356,3 +429,6 @@ Kripke不完全性を起こしている原因の一つは $LogicKH$ では $Axio
 #proposition[@KurahashiShomeikanoseironri2016[p.113]][
   $LogicKH$ に $Axiom4$ を足した論理は $LogicGL$ になる．
 ]
+
+なお，$LogicGL$ 自体も，非反射的かつ推移的な有限フレームクラスに対して健全かつ完全ではあるが，いかなるフレームクラスに対しても強完全ではないことが知られている．
+詳しくは @sanoModalLogicIntro2016[pp.57-66] を参照せよ．
