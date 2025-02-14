@@ -12,9 +12,9 @@
   set page(numbering: "1", number-align: center)
 
   set heading(numbering: "1.")
-  show heading: set text(size: 14pt, font: "Shippori Antique B1", lang: "ja")
+  show heading: set text(size: 14pt, font: "Shippori Antique B1")
 
-  set text(size: 10pt, font: "Shippori Mincho B1", lang: "ja")
+  set text(size: 10pt, font: "Shippori Mincho B1")
   show raw: set text(font: "JuliaMono", size: 7pt)
 
   show: thmrules.with(qed-symbol: [❏])
