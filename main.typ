@@ -138,7 +138,7 @@ $LogicKH$ はKripke意味論に対して完全ではない論理の一つであ�
 @thm:KH_not_prove_Axiom4 を示す前に次の補題を用意しておこう．
 
 #lemma[
-  $LogicK$ に公理 $Sigma$ を追加した論理体系を $Logic(K Sigma)$ とする．
+  $LogicK$ に公理の集合 $Sigma$ を全て追加した論理体系を $Logic(K Sigma)$ とする．
   あるモデル $M$ が $Sigma$ の*公理のインスタンス*を全て妥当にするなら，$Logic(K Sigma) vdash phi ==> M vDash phi$．
 ] <lem:model_existence>
 
@@ -160,7 +160,7 @@ $LogicKH$ はKripke意味論に対して完全ではない論理の一つであ�
 
 #let CresswellModel = $M_upright("C")$
 
-#definition[Cresswellモデル][
+#definition[Cresswellのモデル][
   Cresswellのモデル $CresswellModel := angle.l W, R, forces angle.r$ は以下のように定義される．
 
   まず $NN$ を自然数全体の集合として，$NN^sharp, NN^flat$ の2つの集合を定める．$NN^sharp sect NN^flat = emptyset$ である．
@@ -195,7 +195,6 @@ $LogicKH$ はKripke意味論に対して完全ではない論理の一つであ�
   $2^sharp vDash box p$ と $2^sharp nvDash box box p$ を示せば良い．
   $2^sharp$ から1歩だけで行ける世界に $0^sharp$ は存在しない．よって $2^sharp vDash box p$ が成り立つ．
   他方，$2^sharp$ から2歩で行ける世界には $0^sharp$ が存在する．よって $2^sharp nvDash box box p$ が成り立つ．
-  よってよい．
 ]
 
 次に，$AxiomH$ の全てのインスタンスがCresswellのモデルで妥当であることを示す．
@@ -212,7 +211,7 @@ $LogicKH$ はKripke意味論に対して完全ではない論理の一つであ�
 #proof[
   $phi$ に関する論理式の帰納法で示す．
   #struct[
-    $phi equiv p$ なら $[p]^c = {0}$ なのでよい．
+    $phi equiv p$ なら $[p]^c = {0^sharp}$ なのでよい．
   ]
   #struct[
     $phi equiv bot$ なら $[bot] = emptyset$ なのでよい．
@@ -226,24 +225,30 @@ $LogicKH$ はKripke意味論に対して完全ではない論理の一つであ�
       $[psi]$ が有限か $[chi]^c$ が有限ならば $[psi] sect [chi]^c$ が有限．
     ]
     #struct[
-      $[phi]^c$ が有限かつ $[psi]$ が有限のときは $[psi]^c union [chi]^c$ が有限．
+      $[phi]^c$ が有限かつ $[psi]$ が有限のときは $[psi]^c union [chi]$ が有限．
     ]
     よってよい．
   ]
   #struct[
-    $NN^flat subset.eq [phi]$ かそうでないかで場合分けを行う．
+    $phi equiv box psi$ のとき．
+
+    $NN^flat subset.eq [psi]$ かそうでないかで場合分けを行う．
     #struct[
-      そうでないとき，すなわちある $n^flat$ が存在して $n^flat in.not [phi]$ であるとする．
-      このとき $[box phi] subset.eq { m^flat | m <= n }$ であり ${ m^flat | m <= n }$ は有限であることから従う．
+      そうでないとき，すなわちある $n^flat$ が存在して $n^flat in.not [psi]$ であるとする．
+      このとき $[box psi] subset.eq { m^flat | m <= n }$ である．
+      ${ m^flat | m <= n }$ は有限であるので示された．
     ]
     #struct[
-      $NN^flat subset.eq [phi]$ のとき．
-      帰納法の仮定より $[phi]^c$ は有限である．
-      $[phi]^c$ が空集合なら $[phi] = W$ であり，$[box phi] = W$ が言えるので $[box phi]^c = emptyset$ となってよい．
-      したがって，$[phi]^c$ は空集合でないとする．
+      $NN^flat subset.eq [psi]$ のとき．
+      帰納法の仮定より $[psi]^c$ は有限である．
 
-      最大の $n^sharp in [phi]^c$ を取る．すなわち任意の $n < m$ で $m^sharp in [phi]$ である．
-      このとき $[box phi]^c subset.eq { m^sharp | m <= n + 1 }$ であり ${ m^sharp | m <= n + 1 }$ は有限であることから従う．
+      $[phi]^c$ が空集合なら $[psi] = W$ であり，$[box psi] = W$ が言える．
+      よって $[box psi]^c = emptyset$ であり，これは明らかに有限である．
+      したがって，$[psi]^c$ は空集合でないとする．
+
+      最大の $n^sharp in [psi]^c$ を取る．すなわち任意の $n < m$ で $m^sharp in [psi]$ である．
+      このとき $[box psi]^c subset.eq { m^sharp | m <= n + 1 }$ である．
+      ${ m^sharp | m <= n + 1 }$ は有限であるので示された．
     ]
   ]
   よって示された．
@@ -330,7 +335,7 @@ $LogicKH$ はKripke意味論に対して完全ではない論理の一つであ�
   $CresswellModel vDash box(box phi <-> phi) -> box phi$ が成り立つ．
 ]
 
-これにより，Cresswellモデルは所望の性質を満たすことが確認できた．
+これにより，Cresswellモデルは所望の性質を満たすことが確認できたので，@thm:KH_not_prove_Axiom4 の証明も通る．
 
 == その他
 
